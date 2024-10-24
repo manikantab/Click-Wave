@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Click Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #clickCount {
+            font-size: 24px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Enhanced Click Test Page</h1>
+    <p>Test the auto clicker by clicking the button below:</p>
+
+    <button id="testButton">Click Me</button>
+    <button id="resetButton">Reset Click Count</button>
+    <button id="toggleAutoClick">Start Auto Click</button>
+
+    <input type="number" id="clickSpeed" placeholder="Click Speed (ms)" value="1000" style="width: 150px;">
+
+    <p id="clickCount">Click Count: 0</p>
+
+    <script>
+        let clickCount = 0;
+        let autoClickInterval;
+        const clickDisplay = document.getElementById('clickCount');
+        const testButton = document.getElementById('testButton');
+        const resetButton = document.getElementById('resetButton');
+        const toggleAutoClickButton = document.getElementById('toggleAutoClick');
+        const clickSpeedInput = document.getElementById('clickSpeed');
+
+        // Increase click count every time the button is clicked
+        testButton.addEventListener('click', () => {
+            clickCount++;
+            clickDisplay.innerText = `Click Count: ${clickCount}`;
+        });
+
+        // Reset click count
+        resetButton.addEventListener('click', () => {
+            clickCount = 0;
+            clickDisplay.innerText = `Click Count: ${clickCount}`;
+            clearInterval(autoClickInterval);
+            toggleAutoClickButton.innerText = 'Start Auto Click';
+        });
+
+        // Toggle auto click feature
+        toggleAutoClickButton.addEventListener('click', () => {
+            if (autoClickInterval) {
+                clearInterval(autoClickInterval);
+                autoClickInterval = null;
+                toggleAutoClickButton.innerText = 'Start Auto Click';
+            } else {
+                const speed = parseInt(clickSpeedInput.value) || 1000; // Default to 1000ms if not a number
+                autoClickInterval = setInterval(() => {
+                    clickCount++;
+                    clickDisplay.innerText = `Click Count: ${clickCount}`;
+                }, speed);
+                toggleAutoClickButton.innerText = 'Stop Auto Click';
+            }
+        });
+    </script>
+
+</body>
+</html>
